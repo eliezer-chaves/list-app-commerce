@@ -4,7 +4,6 @@ const openModal = () => document.getElementById('modal')
 const closeModal = () => document.getElementById('modal')
     .classList.remove('active')
 
-
 //Pegando o que tem no Banco, converte para de String para JSON
 //E armazena na variavel db_itens
 //Se o retorno vier vazio eu retorno um arrya vazio
@@ -93,10 +92,7 @@ const updateTable = () =>{
     const db_itens = readItens()
     clearTable()
     db_itens.forEach(createRow)
-
 }
-
-//Sempre que for carregado já vai puxar os dados
 updateTable()
 
 //Eventos
@@ -149,3 +145,4 @@ const editDelete = (event) =>{
 
 document.querySelector('#tabela-items>tbody')
     .addEventListener('click', editDelete)
+

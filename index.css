@@ -48,5 +48,10 @@ header{
     justify-content: center;
     align-items: center;
     margin-top: 15px;
-    width: 200px;
+}
+.botoes{
+    width: 300px;
+}
+.form-control:focus{
+    box-shadow: none;
 }
