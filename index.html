@@ -13,7 +13,7 @@
 </head>
 <body>
     <header class="container-fluid">
-        List App
+        LIST APP
     </header>
     <div class="container">
         <form id="formulario" class="form" action="">
@@ -27,6 +27,18 @@
                 </div>
                 <div class="formulario-inputs-valor">
                     <div class="input-group input-group">
+                        <span class="input-group-text">Quantidade:</span>
+                        <input
+                        value="0"
+                        min="0"
+                        autocomplete="off"
+                        required 
+                        id="quantidade"
+                        type="number" class="form-control">
+                    </div>
+                </div>
+                <div class="formulario-inputs-valor">
+                    <div class="input-group input-group">
                         <span class="input-group-text">R$</span>
                         <input
                         required 
@@ -35,17 +47,20 @@
                     </div>
                 </div>
             </div>
+
             <div class="formulario-button">
                 <button id="adicionar" class="btn btn-primary botoes">Adicionar</button>
                 <button id="editar-element" class="btn btn-warning">Editar e Salvar</button>
             </div>
         </form>
         <div class="list">
-            <table id="tabela-items" class="lista-items table table-striped table-hover table-bordered table-light align-middle">
+            <table id="tabela-items" class="lista-items table table-sm table-striped table-hover table-bordered table-light align-middle">
                 <thead>
-                    <tr class="text-center">
+                    <tr class="text-center align-middle ">
                         <th>Nome</th>
-                        <th>Valor</th>
+                        <th>Qtd</th>
+                        <th>Valor Uni.</th>
+                        <th>Total</th>
                         <th>Editar</th>
                         <th>Excluir</th>
                     </tr>

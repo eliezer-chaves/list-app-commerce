@@ -25,6 +25,7 @@ const updateItem = (index, item) => {
     setLocalStorage(db_itens)
 }
 const readItens = () => getLocalStorage()
+
 const createItem = (item) =>{
     //Pegando o banco
     const db_itens = getLocalStorage()
@@ -40,15 +41,27 @@ const isValidFields = () =>{
 
 //Interação com o layout
 const saveItem = () =>{
-    var tempValor = document.getElementById('valor').value
     var tempNome = document.getElementById('item').value
+    var tempQuantidade = parseFloat(document.getElementById('quantidade').value)
+    var tempValor = parseFloat(document.getElementById('valor').value.replace(',', '.'))
+
+    var tempTotal = tempValor * tempQuantidade
+    var totalConvertido = tempTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
+    var valorConvertido = tempValor.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
+
+
 
     if (isValidFields()){
         const item = {
             nome: tempNome,
-            valor: tempValor
+            quantidade: tempQuantidade,
+            valor: valorConvertido,
+            total: totalConvertido
         }
         const index = document.getElementById('item').dataset.index
+        
+        
+
         if(index == 'new'){
             createItem(item)
             updateTable()
@@ -65,15 +78,17 @@ const createRow = (item, index) =>{
     const newRow = document.createElement('tr')
     newRow.innerHTML = `
     <td>${item.nome}</td>
+    <td>${item.quantidade}</td>
     <td>${item.valor}</td>
+    <td>${item.total}</td>
     <td>
-        <button type="button" class="btn btn-warning" id="editar-${index}">
-            Editar
-        </button>
+        <a type="button" class="btn btn-warning" id="editar-${index}">
+            x
+        </a>
     </td>
     <td>
         <button type="button" class="btn btn-danger" id="excluir-${index}">
-            Excluir
+            X
         </button>
     </td>
     `
@@ -114,12 +129,14 @@ document.getElementById('modalClose')
 const fillFields = (item) => {
     document.getElementById('item').value = item.nome
     document.getElementById('valor').value = item.valor
+    document.getElementById('quantidade').value = item.quantidade
     document.getElementById('item').dataset.index = item.index
 }
 
 const editItem = (index) => {
     document.getElementById('adicionar').style.display = "none"
     document.getElementById('editar-element').style.display = "inline"
+
     const item = readItens()[index]
     item.index = index
     fillFields(item)
