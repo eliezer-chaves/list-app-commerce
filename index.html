@@ -10,6 +10,7 @@
     <script src="https://code.jquery.com/jquery-2.2.4.js" integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI=" crossorigin="anonymous"></script>
     <link rel="shortcut icon" href="lib/favicon.svg" />
     <link rel="stylesheet" href="index.css">
+    <script src="https://kit.fontawesome.com/cc68fbb661.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header class="container-fluid">
@@ -49,32 +50,46 @@
             </div>
 
             <div class="formulario-button">
-                <button id="adicionar" class="btn btn-primary botoes">Adicionar</button>
+                <a href="#" id="adicionar" class="btn btn-primary botoes">
+                    Adicionar
+                    <span><i class="fa-solid fa-cart-plus"></i></span>
+                </a>
+
                 <button id="editar-element" class="btn btn-warning">Editar e Salvar</button>
             </div>
         </form>
-        <div class="list">
-            <table id="tabela-items" class="lista-items table table-sm table-striped table-hover table-bordered table-light align-middle">
-                <thead>
+        <br>
+        <div class="list" id="list">
+            <table id="tabela-items" class=" lista-items table table-sm table-striped table-hover table-bordered align-middle ">
+                <thead class="table-dark">
                     <tr class="text-center align-middle ">
-                        <th>Nome</th>
-                        <th>Qtd</th>
-                        <th>Valor Uni.</th>
-                        <th>Total</th>
-                        <th>Editar</th>
-                        <th>Excluir</th>
+                        <th class="titulo-header-tabela">Nome</th>
+                        <th class="titulo-header-tabela">Qtd</th>
+                        <th class="titulo-header-tabela">Valor Uni.</th>
+                        <th class="titulo-header-tabela">Total</th>
+                        <th class="titulo-header-tabela">Editar</th>
+                        <th class="titulo-header-tabela">Excluir</th>
                     </tr>
                 </thead>
-                <tbody class="text-center">
-                    
+                <tbody class="text-center font-body-tabela">
+                        
                 </tbody>
+                <tfoot class="table-dark text-center">
+                    <th colspan="3" class="text-start">Total</th>
+                    <th colspan="2" class="text-center" id="total" value="">R$ 00,00</th>
+                    <td>
+                        <a type="button" class="btn btn-danger btn-sm" role="button" aria-disabled="true" id="excluir-tudo">
+                            Excluir tudo
+                        </a>
+                    </td>
+                </tfoot>
             </table>
         </div>
     </div>
     <div class="modal" id="modal">
         <div class="modal-content">
             <header  class="modal-header">
-                <h2>Novo Cliente</h2>
+                <h2>Novo Item</h2>
                 <span class="modal-close" id="modalClose">&#10006;</span>
             </header>
             <form class="modal-form">
@@ -84,14 +99,17 @@
                 required 
                 id="valor"
                 type="text" class="form-control">
-                
             </form>
             <footer class="modal-footer">
-
                 <button class="button green" id="editar">Salvar</button>
                 <button id="ecluir" class="button blue">Cancelar</button>
             </footer>
         </div>
+    </div>
+
+    <div id="carrinho">
+        <h3>Seu carrinho está vazio :(</h3>
+        <img src="lib/empty-box.svg"  id="empty-cart" alt="">
     </div>
 
 

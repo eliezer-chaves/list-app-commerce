@@ -1,9 +1,9 @@
 :root{
-    --blue: #0d6efd;
+    --dark: #1e1f1f;
     --white: #f3f3f3;
 }
 header{
-    background-color: var(--blue);
+    background-color: var(--dark);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,7 +33,6 @@ header{
     justify-content: center;
     flex-wrap: wrap;
     width: 350px;
-    
 }
 .formulario-inputs-nome{
     width: 100%;
@@ -49,9 +48,36 @@ header{
     align-items: center;
     margin-top: 15px;
 }
-.botoes{
+.botoes, .botoes:focus{
     width: 300px;
+    background-color: var(--dark);
+    border: var(--dark);
+    box-shadow: none;
+}
+.botoes:hover{
+    background-color: var(--white);
+    color: var(--dark);
+    border: solid 1px var(--dark);
 }
 .form-control:focus{
     box-shadow: none;
+    border-color: var(--dark);
+}
+.titulo-header-tabela{
+    font-size: 14px;
+}
+.btn-custom{
+    background-color: #f1d222;
+}
+#carrinho{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    color: #3b3b3b;
+}
+#empty-cart{
+    height: 100px;
+    width: 100px;
 }

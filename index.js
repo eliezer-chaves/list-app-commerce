@@ -39,8 +39,17 @@ const isValidFields = () =>{
     return document.getElementById('formulario').reportValidity()
 }
 
+function clearInputs(){
+    document.getElementById('item').value = ''
+    document.getElementById('quantidade').value = ''
+    document.getElementById('valor').value = ''
+    document.getElementById('item').dataset.index = 'new'
+
+}
+
 //Interação com o layout
 const saveItem = () =>{
+
     var tempNome = document.getElementById('item').value
     var tempQuantidade = parseFloat(document.getElementById('quantidade').value)
     var tempValor = parseFloat(document.getElementById('valor').value.replace(',', '.'))
@@ -48,8 +57,6 @@ const saveItem = () =>{
     var tempTotal = tempValor * tempQuantidade
     var totalConvertido = tempTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
     var valorConvertido = tempValor.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
-
-
 
     if (isValidFields()){
         const item = {
@@ -59,18 +66,47 @@ const saveItem = () =>{
             total: totalConvertido
         }
         const index = document.getElementById('item').dataset.index
-        
-        
-
         if(index == 'new'){
             createItem(item)
+            clearInputs()
             updateTable()
         }else{
+            document.getElementById('adicionar').style.display = "inline"
+            document.getElementById('editar-element').style.display = "none"
+            clearInputs()
             updateItem(index, item)
+            
+            
             updateTable()
         }
         
     }
+}
+
+const disableButton = () =>{
+    const obj =  getLocalStorage()
+    if(Object.keys(obj).length == 0){
+        //document.getElementById('excluir-tudo').classList.add('disabled')
+        document.getElementById("list").style.display = "none";
+        document.getElementById('carrinho').style.display = "flex"
+    }
+    else{
+        //document.getElementById('excluir-tudo').classList.remove('disabled')
+        document.getElementById('list').style.display = "inline";
+        document.getElementById('carrinho').style.display = "none"
+    }
+}
+
+const soma = () =>{
+    const obj =  getLocalStorage()
+    var carrinho = 0;
+
+    for(i = 0; i < Object.keys(obj).length; i++){
+        obj[i].total.substr(3).replace(',', '.')
+        carrinho += parseFloat(obj[i].total.substr(3).replace(',', '.'))
+    }
+    var carrinhoConvertido = carrinho.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
+    document.getElementById('total').innerText = carrinhoConvertido
 }
 
 //Criando linha da tabela com o item
@@ -82,17 +118,18 @@ const createRow = (item, index) =>{
     <td>${item.valor}</td>
     <td>${item.total}</td>
     <td>
-        <a type="button" class="btn btn-warning" id="editar-${index}">
-            x
-        </a>
+        <button type="button" class="btn btn-custom rounded-circle" id="editar-${index}">
+            ✎
+        </button>    
     </td>
     <td>
-        <button type="button" class="btn btn-danger" id="excluir-${index}">
+        <button type="button" class="btn btn-danger rounded-circle" id="excluir-${index}">
             X
         </button>
     </td>
     `
     document.querySelector('#tabela-items>tbody').appendChild(newRow)
+    soma()
 }
 
 const clearTable = () =>{
@@ -102,33 +139,25 @@ const clearTable = () =>{
     rows.forEach(row => row.parentNode.removeChild(row))
 }
 
+const deleteAll = () =>{
+    localStorage.clear()
+    updateTable()
+}
+
 //Função para atualizar a tabela
 const updateTable = () =>{
+    soma()
+    disableButton()
     const db_itens = readItens()
     clearTable()
     db_itens.forEach(createRow)
 }
 updateTable()
 
-//Eventos
-
-//Quando clicar no botão vai salvar o cliente
-document.getElementById('adicionar')
-    .addEventListener('click', saveItem)
-
-document.getElementById('editar-element')
-    .addEventListener('click', saveItem)
-
-//editar
-document.getElementById('editar')
-    .addEventListener('click', openModal)
-
-document.getElementById('modalClose')
-    .addEventListener('click', closeModal)
-
 const fillFields = (item) => {
     document.getElementById('item').value = item.nome
-    document.getElementById('valor').value = item.valor
+    //Removo o R$ do valor
+    document.getElementById('valor').value = item.valor.substr(3);
     document.getElementById('quantidade').value = item.quantidade
     document.getElementById('item').dataset.index = item.index
 }
@@ -160,6 +189,24 @@ const editDelete = (event) =>{
     }
 }
 
+//Eventos
+
+//Quando clicar no botão vai salvar o cliente
+document.getElementById('adicionar')
+    .addEventListener('click', saveItem)
+
+document.getElementById('editar-element')
+    .addEventListener('click', saveItem)
+
+//editar
+document.getElementById('editar')
+    .addEventListener('click', openModal)
+
+document.getElementById('modalClose')
+    .addEventListener('click', closeModal)
+
 document.querySelector('#tabela-items>tbody')
     .addEventListener('click', editDelete)
 
+document.getElementById('excluir-tudo')
+    .addEventListener('click', deleteAll)
