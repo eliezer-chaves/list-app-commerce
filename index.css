@@ -48,7 +48,7 @@ header{
     align-items: center;
     margin-top: 15px;
 }
-.botoes, .botoes:focus{
+.botoes, .botoes:focus, .botoes:active{
     width: 300px;
     background-color: var(--dark);
     border: var(--dark);
