@@ -50,12 +50,17 @@ function clearInputs(){
 const saveItem = () =>{
     var tempQuantidade = parseFloat(document.getElementById('quantidade').value)
     var tempValor = tempValor = parseFloat(document.getElementById('valor').value.replace(',', '.'))
-    if(tempQuantidade == 0 || tempValor == 0){
+    if(isNaN(tempQuantidade)){
         tempQuantidade = 1
-        tempValor = 0
     }
     var tempNome = document.getElementById('item').value
     var tempTotal = tempValor * tempQuantidade
+    if(isNaN(tempValor)){
+        tempValor = 0
+    }
+    if(isNaN(tempTotal)){
+        tempTotal = 0
+    }
     var totalConvertido = tempTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
     var valorConvertido = tempValor.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
     if (isValidFields()){
