@@ -44,20 +44,20 @@ function clearInputs(){
     document.getElementById('quantidade').value = ''
     document.getElementById('valor').value = ''
     document.getElementById('item').dataset.index = 'new'
-
 }
 
 //Interação com o layout
 const saveItem = () =>{
-
-    var tempNome = document.getElementById('item').value
     var tempQuantidade = parseFloat(document.getElementById('quantidade').value)
-    var tempValor = parseFloat(document.getElementById('valor').value.replace(',', '.'))
-
+    var tempValor = tempValor = parseFloat(document.getElementById('valor').value.replace(',', '.'))
+    if(tempQuantidade == 0 || tempValor == 0){
+        tempQuantidade = 1
+        tempValor = 0
+    }
+    var tempNome = document.getElementById('item').value
     var tempTotal = tempValor * tempQuantidade
     var totalConvertido = tempTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
     var valorConvertido = tempValor.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
-
     if (isValidFields()){
         const item = {
             nome: tempNome,
@@ -69,27 +69,24 @@ const saveItem = () =>{
         if(index == 'new'){
             createItem(item)
             clearInputs()
+            document.getElementById('item').focus();
             updateTable()
+            
         }else{
             document.getElementById('adicionar').style.display = "inline"
             document.getElementById('editar-element').style.display = "none"
             clearInputs()
             updateItem(index, item)
-            
-            
             updateTable()
         }
-        
     }
 }
 
 const disableButton = () =>{
     const obj =  getLocalStorage()
     if(Object.keys(obj).length == 0){
-        
         document.getElementById("list").style.display = "none";
         document.getElementById('carrinho').style.display = "flex"
-        
     }
     else{
         if (Object.keys(obj).length == 1){
@@ -101,14 +98,11 @@ const disableButton = () =>{
         document.getElementById('list').style.display = "inline";
         document.getElementById('carrinho').style.display = "none"
     }
-
-
 }
 
 const soma = () =>{
     const obj =  getLocalStorage()
     var carrinho = 0;
-
     for(i = 0; i < Object.keys(obj).length; i++){
         obj[i].total.substr(3).replace(',', '.')
         carrinho += parseFloat(obj[i].total.substr(3).replace(',', '.'))
@@ -173,7 +167,6 @@ const fillFields = (item) => {
 const editItem = (index) => {
     document.getElementById('adicionar').style.display = "none"
     document.getElementById('editar-element').style.display = "inline"
-
     const item = readItens()[index]
     item.index = index
     fillFields(item)
@@ -206,7 +199,6 @@ document.getElementById('adicionar')
 document.getElementById('editar-element')
     .addEventListener('click', saveItem)
 
-//editar
 document.getElementById('editar')
     .addEventListener('click', openModal)
 
