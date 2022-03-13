@@ -86,15 +86,23 @@ const saveItem = () =>{
 const disableButton = () =>{
     const obj =  getLocalStorage()
     if(Object.keys(obj).length == 0){
-        //document.getElementById('excluir-tudo').classList.add('disabled')
+        
         document.getElementById("list").style.display = "none";
         document.getElementById('carrinho').style.display = "flex"
+        
     }
     else{
-        //document.getElementById('excluir-tudo').classList.remove('disabled')
+        if (Object.keys(obj).length == 1){
+            document.getElementById('excluir-tudo').classList.add('disabled')
+        }
+        else{
+            document.getElementById('excluir-tudo').classList.remove('disabled')
+        }
         document.getElementById('list').style.display = "inline";
         document.getElementById('carrinho').style.display = "none"
     }
+
+
 }
 
 const soma = () =>{
