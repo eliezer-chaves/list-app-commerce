@@ -4,13 +4,8 @@ const openModal = () => document.getElementById('modal')
 const closeModal = () => document.getElementById('modal')
     .classList.remove('active')
 
-//Pegando o que tem no Banco, converte para de String para JSON
-//E armazena na variavel db_itens
-//Se o retorno vier vazio eu retorno um arrya vazio
 const getLocalStorage = () => JSON.parse(localStorage.getItem('db_itens')) ?? []
 
-//Precisa converter objeto para JSON, passo a "tabela" para o Banco
-//Passando uma chave "db_itens", para saber onde iserir o item
 const setLocalStorage = (db_itens) => localStorage.setItem("db_itens", JSON.stringify(db_itens))
 
 //CRUD
@@ -27,11 +22,8 @@ const updateItem = (index, item) => {
 const readItens = () => getLocalStorage()
 
 const createItem = (item) =>{
-    //Pegando o banco
     const db_itens = getLocalStorage()
-    //Acrescenta o item na variavel
     db_itens.push(item)
-    //Mandando o novo Array para o banco
     setLocalStorage(db_itens)
 }
 
@@ -40,13 +32,14 @@ const isValidFields = () =>{
 }
 
 function clearInputs(){
+    document.getElementById('fornecedor').value = ''
     document.getElementById('item').value = ''
     document.getElementById('quantidade').value = ''
     document.getElementById('valor').value = ''
+    document.getElementById('data-pedido').value = ''
     document.getElementById('item').dataset.index = 'new'
 }
 
-//Interação com o layout
 const saveItem = () =>{
     var tempQuantidade = parseFloat(document.getElementById('quantidade').value)
     var tempValor = tempValor = parseFloat(document.getElementById('valor').value.replace(',', '.'))
@@ -63,11 +56,18 @@ const saveItem = () =>{
     }
     var totalConvertido = tempTotal.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
     var valorConvertido = tempValor.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})
+
+    var tempFornecedor = document.getElementById('fornecedor').value
+
+    var tempDataPedido = document.getElementById('data-pedido').value
+
     if (isValidFields()){
         const item = {
+            fornecedor: tempFornecedor,
             nome: tempNome,
             quantidade: tempQuantidade,
             valor: valorConvertido,
+            dataPedido: tempDataPedido,
             total: totalConvertido
         }
         const index = document.getElementById('item').dataset.index
@@ -116,13 +116,14 @@ const soma = () =>{
     document.getElementById('total').innerText = carrinhoConvertido
 }
 
-//Criando linha da tabela com o item
 const createRow = (item, index) =>{
     const newRow = document.createElement('tr')
     newRow.innerHTML = `
+    <td>${item.fornecedor}</td>
     <td>${item.nome}</td>
     <td>${item.quantidade}</td>
     <td>${item.valor}</td>
+    <td>${item.dataPedido}</td>
     <td>${item.total}</td>
     <td>
         <button type="button" class="btn btn-custom rounded-circle" id="editar-${index}">
@@ -140,9 +141,7 @@ const createRow = (item, index) =>{
 }
 
 const clearTable = () =>{
-    //Arrya com todas as <tr>
     const rows = document.querySelectorAll('#tabela-items>tbody tr')
-    //Pego os pais da linha e apago a própria linha
     rows.forEach(row => row.parentNode.removeChild(row))
 }
 
@@ -151,7 +150,6 @@ const deleteAll = () =>{
     updateTable()
 }
 
-//Função para atualizar a tabela
 const updateTable = () =>{
     soma()
     disableButton()
@@ -162,10 +160,12 @@ const updateTable = () =>{
 updateTable()
 
 const fillFields = (item) => {
+    document.getElementById('fornecedor').value = item.fornecedor
     document.getElementById('item').value = item.nome
-    //Removo o R$ do valor
-    document.getElementById('valor').value = item.valor.substr(3);
     document.getElementById('quantidade').value = item.quantidade
+    document.getElementById('valor').value = item.valor.substr(3);
+    document.getElementById('data-pedido').value = item.dataPedido
+    
     document.getElementById('item').dataset.index = item.index
 }
 
@@ -177,6 +177,7 @@ const editItem = (index) => {
     fillFields(item)
     openModal()
 }
+
 
 const editDelete = (event) =>{
     if (event.target.type == 'button'){
@@ -195,9 +196,6 @@ const editDelete = (event) =>{
     }
 }
 
-//Eventos
-
-//Quando clicar no botão vai salvar o cliente
 document.getElementById('adicionar')
     .addEventListener('click', saveItem)
 

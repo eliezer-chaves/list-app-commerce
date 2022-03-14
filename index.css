@@ -28,20 +28,6 @@ header{
     align-items: center;
     justify-content: center;
 }
-.formulario-inputs{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    width: 350px;
-}
-.formulario-inputs-nome{
-    width: 100%;
-    margin: 10px;
-}
-.formulario-inputs-valor{
-    width: 100%;
-    margin: 10px;
-}
 .formulario-button{
     display: flex;
     justify-content: center;
