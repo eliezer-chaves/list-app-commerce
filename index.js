@@ -4,27 +4,27 @@ const openModal = () => document.getElementById('modal')
 const closeModal = () => document.getElementById('modal')
     .classList.remove('active')
 
-const getLocalStorage = () => JSON.parse(localStorage.getItem('db_itens')) ?? []
+const getLocalStorage = () => JSON.parse(localStorage.getItem('db_itens_fornecedorr')) ?? []
 
-const setLocalStorage = (db_itens) => localStorage.setItem("db_itens", JSON.stringify(db_itens))
+const setLocalStorage = (db_itens_fornecedorr) => localStorage.setItem("db_itens_fornecedorr", JSON.stringify(db_itens_fornecedorr))
 
 //CRUD
 const deleteItem = (index) =>{
-    const db_itens = readItens()
-    db_itens.splice(index, 1)
-    setLocalStorage(db_itens)
+    const db_itens_fornecedorr = readItens()
+    db_itens_fornecedorr.splice(index, 1)
+    setLocalStorage(db_itens_fornecedorr)
 }
 const updateItem = (index, item) => {
-    const db_itens = readItens()
-    db_itens[index] = item
-    setLocalStorage(db_itens)
+    const db_itens_fornecedorr = readItens()
+    db_itens_fornecedorr[index] = item
+    setLocalStorage(db_itens_fornecedorr)
 }
 const readItens = () => getLocalStorage()
 
 const createItem = (item) =>{
-    const db_itens = getLocalStorage()
-    db_itens.push(item)
-    setLocalStorage(db_itens)
+    const db_itens_fornecedor_fornecedor_fornecedor = getLocalStorage()
+    db_itens_fornecedor_fornecedor_fornecedor.push(item)
+    setLocalStorage(db_itens_fornecedor_fornecedor_fornecedor)
 }
 
 const isValidFields = () =>{
@@ -74,7 +74,7 @@ const saveItem = () =>{
         if(index == 'new'){
             createItem(item)
             clearInputs()
-            document.getElementById('item').focus();
+            document.getElementById('fornecedor').focus();
             updateTable()
             
         }else{
@@ -153,9 +153,9 @@ const deleteAll = () =>{
 const updateTable = () =>{
     soma()
     disableButton()
-    const db_itens = readItens()
+    const db_itens_fornecedor_fornecedor_fornecedor = readItens()
     clearTable()
-    db_itens.forEach(createRow)
+    db_itens_fornecedor_fornecedor_fornecedor.forEach(createRow)
 }
 updateTable()
 
